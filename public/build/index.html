@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOVA Unified Platform Preview</title>
+  <style>
+    :root {
+      --primary-dark: #1A2A3A;
+      --primary-gold: #D4AF37;
+      --primary-light: #F8F7F4;
+      --neutral-100: #FFFFFF;
+      --neutral-200: #F5F5F5;
+      --neutral-300: #EAEAEA;
+      --neutral-700: #333333;
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --border-radius-md: 6px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--neutral-200);
+      color: var(--primary-dark);
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      background-color: var(--neutral-100);
+      box-shadow: var(--shadow-md);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+    
+    .nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-link {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary-gold);
+    }
+    
+    .hero {
+      background-color: var(--primary-dark);
+      color: var(--neutral-100);
+      padding: 4rem 0;
+      margin: 2rem 0;
+      border-radius: var(--border-radius-md);
+      background-image: linear-gradient(rgba(26, 42, 58, 0.8), rgba(26, 42, 58, 0.8)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-gold);
+      color: var(--primary-dark);
+    }
+    
+    .btn-primary:hover {
+      background-color: #C09C2C;
+    }
+    
+    .btn-outline {
+      border: 2px solid var(--neutral-100);
+      color: var(--neutral-100);
+      margin-left: 1rem;
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--neutral-100);
+      color: var(--primary-dark);
+    }
+    
+    .section {
+      margin: 4rem 0;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .card {
+      background-color: var(--neutral-100);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-md);
+      padding: 2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+    }
+    
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary-gold);
+    }
+    
+    .dashboard-preview {
+      background-color: var(--neutral-100);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-md);
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .dashboard-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--neutral-300);
+      margin-bottom: 2rem;
+    }
+    
+    .dashboard-tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .dashboard-tab.active {
+      border-bottom-color: var(--primary-gold);
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+    
+    .dashboard-content {
+      min-height: 300px;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .feature-list {
+      list-style: none;
+    }
+    
+    .feature-item {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .feature-icon {
+      margin-right: 0.75rem;
+      color: var(--primary-gold);
+    }
+    
+    footer {
+      background-color: var(--primary-dark);
+      color: var(--neutral-100);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    
+    .footer-column h3 {
+      color: var(--neutral-100);
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-link {
+      margin-bottom: 0.75rem;
+    }
+    
+    .footer-link a {
+      color: var(--neutral-300);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-link a:hover {
+      color: var(--primary-gold);
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--neutral-300);
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      
+      .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      
+      .btn-outline {
+        margin-left: 0;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">SOVA</div>
+        <nav class="nav">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#dashboards" class="nav-link">Dashboards</a>
+          <a href="#app" class="nav-link">App</a>
+          <a href="#" class="nav-link">Login</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Intelligent Hospitality, Seamlessly Delivered</h1>
+          <p class="hero-subtitle">Elevate your guest experience with Africa's premier luxury hospitality platform</p>
+          <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">Try the App</a>
+            <a href="#" class="btn btn-outline">Request Demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section-title">Unified Experience</h2>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">🏨</div>
+            <h3 class="card-title">Luxury Hospitality Platform</h3>
+            <p>A comprehensive solution designed specifically for Africa's finest hotels, offering seamless integration between guest experiences and hotel operations.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">📱</div>
+            <h3 class="card-title">Guest Mobile Experience</h3>
+            <p>Empower guests with digital check-in, mobile keys, and in-app service requests for a frictionless stay experience.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">📊</div>
+            <h3 class="card-title">Business Intelligence</h3>
+            <p>Transform guest data into strategic advantages with comprehensive analytics and reporting dashboards.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="dashboards" class="section">
+      <div class="container">
+        <h2 class="section-title">Integrated Dashboards</h2>
+        <div class="dashboard-preview">
+          <div class="dashboard-tabs">
+            <div class="dashboard-tab active" data-tab="guest">Guest Dashboard</div>
+            <div class="dashboard-tab" data-tab="business">Business Dashboard</div>
+            <div class="dashboard-tab" data-tab="investor">Investor Dashboard</div>
+          </div>
+          <div class="dashboard-content">
+            <div id="guest-tab" class="tab-content active">
+              <h3>Guest Dashboard</h3>
+              <ul class="feature-list">
+                <li class="feature-item"><span class="feature-icon">✓</span> Profile management</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Upcoming stay cards</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Loyalty points section</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Feedback forms</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Personalized recommendations</li>
+              </ul>
+            </div>
+            <div id="business-tab" class="tab-content">
+              <h3>Business Dashboard</h3>
+              <ul class="feature-list">
+                <li class="feature-item"><span class="feature-icon">✓</span> Real-time KPIs</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Booking overview</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Room status board</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Staff management</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Guest feedback analysis</li>
+              </ul>
+            </div>
+            <div id="investor-tab" class="tab-content">
+              <h3>Investor Dashboard</h3>
+              <ul class="feature-list">
+                <li class="feature-item"><span class="feature-icon">✓</span> Financial performance metrics</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Occupancy trends</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Revenue forecasting</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Investment tracking</li>
+                <li class="feature-item"><span class="feature-icon">✓</span> Competitive analysis</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="app" class="section">
+      <div class="container">
+        <h2 class="section-title">Guest App Experience</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3 class="card-title">Digital Check-In/Out</h3>
+            <p>Skip the front desk and go straight to your room with our seamless digital check-in process.</p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Digital Room Key</h3>
+            <p>Use your smartphone as your room key for secure and convenient access.</p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Room Service Ordering</h3>
+            <p>Browse menus, place orders, and track delivery all from your mobile device.</p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Shuttle Service Booking</h3>
+            <p>Schedule airport transfers and local transportation with just a few taps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>SOVA</h3>
+          <p>Africa's premier luxury hospitality platform offering digital check-in, mobile keys, and personalized guest experiences.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Platform</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">Guest App</a></li>
+            <li class="footer-link"><a href="#">Business Dashboard</a></li>
+            <li class="footer-link"><a href="#">Investor Dashboard</a></li>
+            <li class="footer-link"><a href="#">Reporting Suite</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Company</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">About Us</a></li>
+            <li class="footer-link"><a href="#">Careers</a></li>
+            <li class="footer-link"><a href="#">Contact</a></li>
+            <li class="footer-link"><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Legal</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">Terms of Service</a></li>
+            <li class="footer-link"><a href="#">Privacy Policy</a></li>
+            <li class="footer-link"><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 SOVA. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // Simple tab functionality
+    const tabs = document.querySelectorAll('.dashboard-tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show corresponding content
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
